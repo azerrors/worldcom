@@ -4,6 +4,7 @@ const WorldContext = createContext();
 
 const initialState = {
   temp: true,
+  show: false,
   searchInput: "",
   favorites: [],
 };
@@ -32,18 +33,23 @@ function reducer(state, action) {
         ...state,
         temp: !state.temp,
       };
+    case "show":
+      return {
+        ...state,
+        show: !state.show,
+      };
     default:
       return state;
   }
 }
 
 function WorldProvider({ children }) {
-  const [{ temp, searchInput, favorites }, dispatch] = useReducer(
+  const [{ temp, show, favorites }, dispatch] = useReducer(
     reducer,
     initialState
   );
   return (
-    <WorldContext.Provider value={{ temp, searchInput, dispatch, favorites }}>
+    <WorldContext.Provider value={{ temp, show, dispatch, favorites }}>
       {children}
     </WorldContext.Provider>
   );
