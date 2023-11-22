@@ -60,7 +60,7 @@ function Sidebar() {
         Worldcom
       </h1>
       {placeInfoLoading && (
-        <div className="flex justify-center md:mt-80 text-2xl md: h-screen">
+        <div className="flex justify-center mt-56 md:mt-80 text-2xl md: h-screen">
           <Spinner />
         </div>
       )}
