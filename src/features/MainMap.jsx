@@ -40,7 +40,7 @@ function MainMap() {
   );
 
   return (
-    <div className="md:w-full mx-1 relative">
+    <div className="md:w-full mx-5  relative">
       {!geolocationPosition && (
         <div
           onClick={getPosition}

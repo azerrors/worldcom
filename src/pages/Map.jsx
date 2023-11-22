@@ -4,7 +4,7 @@ import MainMap from "../features/MainMap";
 
 function Map() {
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex bg-secondary_light min-h-screen dark:bg-secondary_dark flex-col md:flex-row">
       <Sidebar />
       <MainMap />
     </div>
