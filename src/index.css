@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.loader {
+	display: inline-block;
+	transform: translateZ(1px);
+}
+
+.loader:after {
+	content: '';
+	display: inline-block;
+	width: 48px;
+	height: 48px;
+	margin: 8px;
+	border-radius: 50%;
+	background: #fff;
+	animation: coin-flip 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes coin-flip {
+
+	0%,
+	100% {
+		animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+	}
+
+	0% {
+		transform: rotateY(0deg);
+	}
+
+	50% {
+		transform: rotateY(1800deg);
+		animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+	}
+
+	100% {
+		transform: rotateY(3600deg);
+	}
+}
+
+.worldcom {
+	background-image: linear-gradient(to right,
+			rgb(13, 31, 70), rgb(25, 37, 58));
+	-webkit-background-clip: text;
+	color: transparent;
+	padding: 10px;
+	text-transform: uppercase;
+	font-size: 20px;
+	letter-spacing: 5px;
+	font-weight: 600;
+	transition: all 0.2s;
+}
+
+.worldcom:hover {
+	transform: skewY(2deg) skewX(15deg) scale(1.1);
+	text-shadow: .5rem 1rem 2rem rgba(0, 0, 0, .2);
+}
+
+
+html {
+	scroll-behavior: smooth;
+}
+
+input[type=checkbox] {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 80px;
+	height: 40px;
+	background: #183D3D;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 30px;
+	height: 30px;
+	background: #93B1A6;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+input:checked+label {
+	background: #040D12;
+}
+
+input:checked+label:after {
+	left: calc(100% - 5px);
+	background: #244240;
+
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 70px;
+}
+
+@media only screen and (max-width: 600px) {
+	label {
+		cursor: pointer;
+		text-indent: -9999px;
+		width: 60px;
+		height: 30px;
+		background: grey;
+		display: block;
+		border-radius: 100px;
+		position: relative;
+	}
+
+	label:after {
+		content: '';
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		width: 20px;
+		height: 20px;
+		background: #fff;
+		border-radius: 90px;
+		transition: 0.3s;
+	}
+
+	label:active:after {
+		width: 50px;
+	}
+}
