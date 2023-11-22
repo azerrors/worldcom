@@ -22,12 +22,12 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<Applayout />}>
-              <Route path="/" index element={<Home />} />
+              <Route path="/"  element={<Home />} />
               <Route path="weather" id="#weather" element={<Weather />} />
               {/* <Route path="weather:info" id="#weather" element={<Weather />} /> */}
               <Route path="favorite" id="#favorite" element={<Favorite />} />
               <Route path="about" id="#about" element={<About />} />
-              <Route path="map" id="#map" element={<Map />} />
+              <Route path="map" id="#map" index element={<Map />} />
               <Route path="sidebar" id="#sidebar" element={<Sidebar />} />
             </Route>
           </Routes>
