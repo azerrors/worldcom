@@ -56,7 +56,7 @@ function MainMap() {
 
   const customIcon = new Icon({
     iconUrl: "placeholder.png",
-    iconSize: [40, 40],
+    iconSize: [30, 30],
   });
 
   return (
