@@ -26,10 +26,19 @@ export default {
           "80%": { transform: "translateY(5px)" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        rotate: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: " rotate(360deg)",
+          },
+        },
       },
       animation: {
         moveInLeft: "moveInLeft 2s",
         moveInTop: "moveInTop 2s",
+        rotate: "rotate 2s infinite 2.2s , moveInRight 2s",
         moveInRight: "moveInRight 2s",
         moveInBottom: "moveInBottom 2s",
       },

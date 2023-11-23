@@ -2,6 +2,8 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import SideNavbar from "./SideNavbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Applayout() {
   return (
@@ -11,6 +13,7 @@ function Applayout() {
         <Navbar />
         <Outlet />
       </div>
+      <ToastContainer />
     </div>
   );
 }

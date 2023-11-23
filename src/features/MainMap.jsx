@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { useWorld } from "../context/WorldContext";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useUrlPosition } from "../hooks/useUrlPosition";
+import Button from "../ui/Button";
+import { toast } from "react-toastify";
 
 function MainMap() {
   const { favorites } = useWorld();
@@ -24,11 +26,24 @@ function MainMap() {
   } = useGeolocation();
   const [mapLat, mapLng] = useUrlPosition();
 
+  const handlePosition = () => {
+    toast.info("adasfsf", {
+      position: "bottom-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+    getPosition()
+  };
+
   useEffect(
     function () {
       if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
     },
-    [mapLat, mapLng]
+    [mapLat, mapLng],
   );
 
   useEffect(
@@ -36,18 +51,15 @@ function MainMap() {
       if (geolocationPosition)
         setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
     },
-    [geolocationPosition]
+    [geolocationPosition],
   );
 
   return (
-    <div className="md:w-full mx-5  relative">
+    <div className="relative mx-5  md:w-full">
       {!geolocationPosition && (
-        <div
-          onClick={getPosition}
-          className=" border bg-slate-400 absolute bottom-28 left-[50%] translate-x-[-50%] z-[1000] "
-        >
+        <Button onClick={handlePosition} type="position">
           {isLoadingPosition ? "Loading..." : "Use your position"}
-        </div>
+        </Button>
       )}
 
       <MapContainer

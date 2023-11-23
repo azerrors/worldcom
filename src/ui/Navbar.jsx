@@ -4,6 +4,7 @@ import { useWorld } from "../context/WorldContext";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { TbTemperatureFahrenheit } from "react-icons/tb";
 import { CgDetailsMore } from "react-icons/cg";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const { dispatch, temp, show } = useWorld();
@@ -12,16 +13,36 @@ function Navbar() {
   const handleClick = () => {
     dispatch({ type: "show" });
   };
+
+  const handleToast = () => {
+    dispatch({ type: "temp" })
+    toast.info(`${!temp ? "Temperature Changed to Fahranheit" : "Temperature Changed to Celcius"}`, {
+      position: "bottom-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+  };
+
   return (
-    <div className="flex  justify-between items-center dark:bg-primary_dark dark:text-primary_light text-secondary_light bg-primary_light p-5">
+    <div className="flex  items-center justify-between bg-primary_light p-5 text-secondary_light dark:bg-primary_dark dark:text-primary_light">
       <Link to="/">
-        <img src="icon.png" className={`h-16 ${show ? "ml-16 " : ""} transition-all duration-500  pt-2 scale-[3] `} alt="" />
+        <img
+          src="icon.png"
+          className={`h-16 ${
+            show ? "ml-16 " : ""
+          } scale-[3] pt-2  transition-all duration-500 `}
+          alt=""
+        />
       </Link>
-      <div className="flex items-center gap-5 justify-center">
-        <ul className="hidden md:flex gap-4 items-center uppercase tracking-widest font-semibold">
+      <div className="flex items-center justify-center gap-5">
+        <ul className="hidden items-center gap-4 font-semibold uppercase tracking-widest md:flex">
           <span
-            onClick={() => dispatch({ type: "temp" })}
-            className={`${linkStyle} md:text-3xl cursor-pointer`}
+            onClick={handleToast}
+            className={`${linkStyle} cursor-pointer md:text-3xl`}
           >
             {temp ? <TbTemperatureCelsius /> : <TbTemperatureFahrenheit />}
           </span>
@@ -36,7 +57,10 @@ function Navbar() {
             About
           </Link>
         </ul>
-        <CgDetailsMore className="md:hidden text-3xl " onClick={handleClick} />
+          <CgDetailsMore
+            className="text-3xl md:hidden "
+            onClick={handleClick}
+          />
         <div className="-mt-6">
           <Theme />
         </div>
