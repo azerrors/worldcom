@@ -16,7 +16,7 @@ import Button from "../ui/Button";
 import { toast } from "react-toastify";
 
 function MainMap() {
-  const [mapPosition, setMapPosition] = useState([49, 50]);
+  const [mapPosition, setMapPosition] = useState([45, 40]);
   // console.log(mapPosition)
   const {
     isLoading: isLoadingPosition,
@@ -24,9 +24,8 @@ function MainMap() {
     getPosition,
   } = useGeolocation();
   const [mapLat, mapLng] = useUrlPosition();
+  console.log(geolocationPosition);
 
-  console.log(geolocationPosition)
-  console.log(mapPosition)
   const handlePosition = () => {
     toast.info("Location detected", {
       position: "bottom-right",
@@ -70,6 +69,11 @@ function MainMap() {
         scrollWheelZoom={true}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {geolocationPosition &&  (
+          <Marker position={[geolocationPosition.lat, geolocationPosition.lng]}>
+            <Popup></Popup>
+          </Marker>
+        )}
 
         <ChangeCenter position={mapPosition} />
         <DetectClick />
