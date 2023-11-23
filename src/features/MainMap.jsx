@@ -9,11 +9,11 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
-import { useWorld } from "../context/WorldContext";
+import { toast } from "react-toastify";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Button from "../ui/Button";
-import { toast } from "react-toastify";
+import { Icon } from "leaflet";
 
 function MainMap() {
   const [mapPosition, setMapPosition] = useState([45, 40]);
@@ -54,6 +54,11 @@ function MainMap() {
     [geolocationPosition],
   );
 
+  const customIcon = new Icon({
+    iconUrl: "placeholder.png",
+    iconSize: [40, 40],
+  });
+
   return (
     <div className="relative mx-5  md:w-full">
       {!geolocationPosition && (
@@ -69,8 +74,8 @@ function MainMap() {
         scrollWheelZoom={true}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {geolocationPosition &&  (
-          <Marker position={[geolocationPosition.lat, geolocationPosition.lng]}>
+        {geolocationPosition && (
+          <Marker icon={customIcon} position={[geolocationPosition.lat, geolocationPosition.lng]}>
             <Popup></Popup>
           </Marker>
         )}
