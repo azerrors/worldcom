@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb";
 import { FaLinkedin, FaGithub } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 function SideNavbar() {
   const { show, temp, dispatch } = useWorld();
@@ -11,6 +12,22 @@ function SideNavbar() {
     dispatch({ type: "show" });
   };
   const handleClickAndDispatch = () => {
+    toast.info(
+      `${
+        !temp
+          ? "Temperature Changed to Fahranheit"
+          : "Temperature Changed to Celcius"
+      }`,
+      {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      },
+    );
     dispatch({ type: "temp" });
     dispatch({ type: "show" });
   };
@@ -19,13 +36,13 @@ function SideNavbar() {
     "hover:bg-secondary_light hover:dark:bg-secondary_dark text-xl bg:hover:text-primary_dark hover:skew-x-3  hover:text-primary_light p-2 transition-all  hover:active:translate-y-2 hover:-translate-y-1 hover:scale-[1.01] rounded-md duration-400";
   return (
     <div
-      className={`absolute border bg-secondary_light h-full dark:bg-secondary_dark transform ${
-        !show ? "-translate-x-full opacity-0 hidden" : "translate-x-0"
-      } transition-transform duration-700 h-screen w-56`}
+      className={`absolute h-full transform border bg-secondary_light dark:bg-secondary_dark ${
+        !show ? "hidden -translate-x-full opacity-0" : "translate-x-0"
+      } h-screen w-56 transition-transform duration-700`}
     >
       <div className="text-primary_light ">
-        <IoClose className="text-3xl ml-48" onClick={handleClick} />
-        <ul className="flex flex-col divide-y-2 items-center mt-28 uppercase tracking-widest font-semibold">
+        <IoClose className="ml-48 text-3xl" onClick={handleClick} />
+        <ul className="mt-28 flex flex-col items-center divide-y-2 font-semibold uppercase tracking-widest">
           <Link to="/" onClick={handleClick} className={linkStyle}>
             Home
           </Link>
@@ -41,16 +58,16 @@ function SideNavbar() {
 
           <span
             onClick={handleClickAndDispatch}
-            className={`hover:bg-secondary_light hover:dark:bg-secondary_dark bg:hover:text-primary_dark hover:skew-x-3  hover:text-primary_light p-2 transition-all  hover:active:translate-y-2 hover:-translate-y-1 hover:scale-[1.01] rounded-md duration-400 mt-10 text-3xl cursor-pointer`}
+            className={`bg:hover:text-primary_dark duration-400 mt-10 cursor-pointer  rounded-md p-2 text-3xl  transition-all hover:-translate-y-1 hover:skew-x-3 hover:scale-[1.01] hover:bg-secondary_light hover:text-primary_light hover:active:translate-y-2 hover:dark:bg-secondary_dark`}
           >
             {temp ? <TbTemperatureCelsius /> : <TbTemperatureFahrenheit />}
           </span>
         </ul>
-        <div className="flex mt-20 text-3xl gap-5 justify-center items-center">
-          <Link>
+        <div className="mt-20 flex items-center justify-center gap-5 text-3xl">
+          <Link to="https://github.com/azerrors">
             <FaGithub />
           </Link>
-          <Link>
+          <Link to="https://www.linkedin.com/in/azer-nagiyev-a1b85a247/">
             <FaLinkedin />
           </Link>
         </div>

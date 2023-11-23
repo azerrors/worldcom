@@ -26,7 +26,7 @@ function Sidebar() {
   });
 
   const { data: weatherInfo, isLoading: weatherLoading } = useQuery({
-    queryKey: ["weather", placeInfo && placeInfo.city , currtemp],
+    queryKey: ["weather", placeInfo && placeInfo.city, currtemp],
     queryFn: () => getCurrentWeather(placeInfo && placeInfo.city, currtemp),
   });
 
@@ -47,20 +47,16 @@ function Sidebar() {
     );
   };
 
-  const handleFav = () => {
-    navigate(`/favorite`);
-  };
-
   const h2Style =
     "md:text-xl text-lg border-b border-stone-800 pb-1  text-center uppercase font-medium tracking-widest";
   const h3Style = "md:text-md text-md text-center uppercase tracking-wider";
   return (
-    <div className="md:w-[50%] dark:bg-secondary_dark  bg-secondary_light text-primary_light">
-      <h1 className="text-3xl text-center mt-20 uppercase font-semibold tracking-widest">
+    <div className="bg-secondary_light text-primary_light  dark:bg-secondary_dark md:w-[50%]">
+      <h1 className="mt-20 text-center text-3xl font-semibold uppercase tracking-widest">
         Worldcom
       </h1>
       {placeInfoLoading && (
-        <div className="flex justify-center mt-56 md:mt-80 text-2xl md: h-screen">
+        <div className="md: mt-56 flex h-screen justify-center text-2xl md:mt-80">
           <Spinner />
         </div>
       )}
@@ -68,10 +64,10 @@ function Sidebar() {
         <>
           {!show ? (
             <>
-              <div className="my-20 animate-moveInTop flex justify-center text-[5rem]">
-                <TfiWorld onClick={handleFav} />
+              <div className="my-20 flex animate-moveInTop justify-center text-[5rem]">
+                <TfiWorld />
               </div>
-              <div className="flex flex-wrap items-center gap-20 justify-center">
+              <div className="flex flex-wrap items-center justify-center gap-20">
                 <div className="animate-moveInTop">
                   <h2 className={h2Style}>City</h2>
                   <h3 className={h3Style}>{city}</h3>
@@ -82,7 +78,7 @@ function Sidebar() {
                 </div>
                 <div className="animate-moveInTop">
                   <h2 className={h2Style}>Country</h2>
-                  <h2 className={`${h3Style} justify-center flex gap-1`}>
+                  <h2 className={`${h3Style} flex justify-center gap-1`}>
                     {countryName}
                     {flagemojiToPNG(countryCodeToFlag(countryCode))}
                   </h2>
@@ -92,7 +88,7 @@ function Sidebar() {
                   <h2 className={h3Style}>{locality}</h2>
                 </div>
               </div>
-              <div className="mt-20 pb-10 animate-moveInBottom flex justify-end gap-5 mr-8 md:mr-16">
+              <div className="mr-8 mt-20 flex animate-moveInBottom justify-end gap-5 pb-10 md:mr-16">
                 {weatherInfo && (
                   <Button
                     type="weather"
@@ -101,7 +97,6 @@ function Sidebar() {
                     weather
                   </Button>
                 )}
-               
               </div>
             </>
           ) : !weatherLoading ? (
@@ -112,7 +107,7 @@ function Sidebar() {
               lat={lat}
             />
           ) : (
-            <div className="flex justify-center mt-80 text-2xl h-screen">
+            <div className="mt-80 flex h-screen justify-center text-2xl">
               <Spinner />
             </div>
           )}

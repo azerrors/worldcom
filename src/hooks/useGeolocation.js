@@ -24,5 +24,6 @@ export function useGeolocation(defaultPosition = null) {
       }
     );
   }
+  console.log(position)
   return { isLoading, position, error, getPosition };
 }

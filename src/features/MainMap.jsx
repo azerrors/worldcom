@@ -16,8 +16,7 @@ import Button from "../ui/Button";
 import { toast } from "react-toastify";
 
 function MainMap() {
-  const { favorites } = useWorld();
-  const [mapPosition, setMapPosition] = useState([45, 40]);
+  const [mapPosition, setMapPosition] = useState([49, 50]);
   // console.log(mapPosition)
   const {
     isLoading: isLoadingPosition,
@@ -26,8 +25,10 @@ function MainMap() {
   } = useGeolocation();
   const [mapLat, mapLng] = useUrlPosition();
 
+  console.log(geolocationPosition)
+  console.log(mapPosition)
   const handlePosition = () => {
-    toast.info("adasfsf", {
+    toast.info("Location detected", {
       position: "bottom-right",
       autoClose: 1000,
       hideProgressBar: false,
@@ -36,7 +37,7 @@ function MainMap() {
       draggable: true,
       theme: "dark",
     });
-    getPosition()
+    getPosition();
   };
 
   useEffect(
@@ -69,13 +70,6 @@ function MainMap() {
         scrollWheelZoom={true}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {favorites?.map((city) => (
-          <Marker position={[city.lat, city.lng]} key={city.id}>
-            <Popup>
-              {/* <span>{city.emoji}</span> <span>{city.cityName}</span> */}
-            </Popup>
-          </Marker>
-        ))}
 
         <ChangeCenter position={mapPosition} />
         <DetectClick />

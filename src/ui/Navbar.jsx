@@ -15,16 +15,23 @@ function Navbar() {
   };
 
   const handleToast = () => {
-    dispatch({ type: "temp" })
-    toast.info(`${!temp ? "Temperature Changed to Fahranheit" : "Temperature Changed to Celcius"}`, {
-      position: "bottom-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-    });
+    dispatch({ type: "temp" });
+    toast.info(
+      `${
+        !temp
+          ? "Temperature Changed to Fahranheit"
+          : "Temperature Changed to Celcius"
+      }`,
+      {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      },
+    );
   };
 
   return (
@@ -57,10 +64,7 @@ function Navbar() {
             About
           </Link>
         </ul>
-          <CgDetailsMore
-            className="text-3xl md:hidden "
-            onClick={handleClick}
-          />
+        <CgDetailsMore className="text-3xl md:hidden " onClick={handleClick} />
         <div className="-mt-6">
           <Theme />
         </div>

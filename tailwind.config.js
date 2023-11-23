@@ -42,49 +42,36 @@ export default {
         moveInRight: "moveInRight 2s",
         moveInBottom: "moveInBottom 2s",
       },
+      colors: {
+        // primary_light: "#d2d3db",
+        // secondary_light: "#484b6a",
+
+        // primary_light: "#77ABB7",
+        // secondary_light: "#1D3E53",
+
+        // primary_light: "#D2E3C8",
+        // secondary_light: "#86A789",
+
+        // primary_light: "#C2DEDC",
+        // secondary_light: "#116A7B",
+
+        // primary_light: "#C2DEDC",
+
+        primary_dark: "#244240 ",
+        secondary_dark: "#040D12",
+        triatary_dark: "#000102",
+
+        primary_light: "#93B1A6",
+        triatary_light: "#122f2f  ",
+        secondary_light: "#183D3D",
+
+        // primary_dark: "#2C74B3",
+        // secondary_dark: "#0A2647",
+      },
     },
 
     fontFamily: {
       sans: ["Quicksand", "sans-serif"],
-    },
-    colors: {
-      // primary_light: "#d2d3db",
-      // secondary_light: "#484b6a",
-
-      // primary_light: "#77ABB7",
-      // secondary_light: "#1D3E53",
-
-      // primary_light: "#D2E3C8",
-      // secondary_light: "#86A789",
-
-      primary_dark: "#93B1A6",
-      secondary_dark: "#183D3D",
-    },
-    colors: {
-      // primary_light: "#d2d3db",
-      // secondary_light: "#484b6a",
-
-      // primary_light: "#77ABB7",
-      // secondary_light: "#1D3E53",
-
-      // primary_light: "#D2E3C8",
-      // secondary_light: "#86A789",
-
-      // primary_light: "#C2DEDC",
-      // secondary_light: "#116A7B",
-
-      // primary_light: "#C2DEDC",
-
-      primary_dark: "#244240 ",
-      secondary_dark: "#040D12",
-      triatary_dark: "#000102",
-
-      primary_light: "#93B1A6",
-      triatary_light: "#122f2f  ",
-      secondary_light: "#183D3D",
-
-      // primary_dark: "#2C74B3",
-      // secondary_dark: "#0A2647",
     },
   },
   plugins: [],
