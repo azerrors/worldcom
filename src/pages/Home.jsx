@@ -1,13 +1,19 @@
-import React from "react";
-import { GiWorld } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../ui/Button";
+
+import { GiWorld } from "react-icons/gi";
 import { FaLinkedin, FaGithub } from "react-icons/fa6";
+
 import { useWorld } from "../context/WorldContext";
 
+import Button from "../ui/Button";
+
 function Home() {
-  const navigate = useNavigate();
+  //context api
   const { show } = useWorld();
+  
+  const navigate = useNavigate();
+
+
   return (
     <div className="min-h-screen bg-secondary_light dark:bg-secondary_dark">
       <h3 className="animate-moveInTop pt-20 text-center text-xl font-semibold uppercase tracking-widest text-primary_light md:text-3xl">

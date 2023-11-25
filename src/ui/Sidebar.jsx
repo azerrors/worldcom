@@ -1,39 +1,49 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { TfiWorld } from "react-icons/tfi";
-import { useNavigate } from "react-router-dom";
+
 import { useWorld } from "../context/WorldContext";
-import SideWeather from "../features/SideWeather";
+
 import { useUrlPosition } from "../hooks/useUrlPosition";
-import locationApi from "../services/locationApi";
+
 import getCurrentWeather from "../services/weatherApi";
+import locationApi from "../services/locationApi";
+
 import countryCodeToFlag from "../utilites/ChangeToFlag";
+import SideWeather from "../features/SideWeather";
+
 import Button from "./Button";
 import Message from "./Message";
 import Spinner from "./Spinner";
 
 function Sidebar() {
-  const [lat, lng] = useUrlPosition();
-  const navigate = useNavigate();
-  const { dispatch, favorites, temp } = useWorld();
   const [show, setShow] = useState(false);
 
-  const currtemp = `${temp ? "imperial" : "metric"}`;
+  //to get lat and lng values from url
+  const [lat, lng] = useUrlPosition();
 
+  //context api
+  const { currtemp } = useWorld();
+
+  //fetch choosen place information
   const { data: placeInfo, isLoading: placeInfoLoading } = useQuery({
     queryKey: ["latandlng", lat, lng],
     queryFn: () => locationApi({ lat, lng }), // Pass an object with lat and lng properties
   });
 
+  //fetch weather information
   const { data: weatherInfo, isLoading: weatherLoading } = useQuery({
     queryKey: ["weather", placeInfo && placeInfo.city, currtemp],
     queryFn: () => getCurrentWeather(placeInfo && placeInfo.city, currtemp),
   });
 
+  //array destruction
   const { city, continent, countryName, locality, countryCode } = placeInfo
     ? placeInfo
     : {};
 
+  //to convert the country code to the flag of the selected location
   const flagemojiToPNG = (flag) => {
     var countryCode = Array.from(flag, (codeUnit) => codeUnit.codePointAt())
       .map((char) => String.fromCharCode(char - 127397).toLowerCase())
@@ -47,9 +57,11 @@ function Sidebar() {
     );
   };
 
+  //stlyes
   const h2Style =
     "md:text-xl text-lg border-b border-stone-800 pb-1  text-center uppercase font-medium tracking-widest";
   const h3Style = "md:text-md text-md text-center uppercase tracking-wider";
+
   return (
     <div className="bg-secondary_light text-primary_light  dark:bg-secondary_dark md:w-[50%]">
       <h1 className="mt-20 text-center text-3xl font-semibold uppercase tracking-widest">

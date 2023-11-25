@@ -1,55 +1,68 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { GiSunset, GiWindTurbine } from "react-icons/gi";
 import { LiaTemperatureHighSolid } from "react-icons/lia";
-import { LuWaves } from "react-icons/lu";
-import { MdOutlineVisibility } from "react-icons/md";
 import { RiWindyLine } from "react-icons/ri";
+import { MdOutlineVisibility } from "react-icons/md";
 import { WiHumidity, WiSunrise } from "react-icons/wi";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { LuWaves } from "react-icons/lu";
+
 import getCurrentWeather, { getForecastWeather } from "../services/weatherApi";
+
+import { useWorld } from "../context/WorldContext";
 import Button from "../ui/Button";
 import Message from "../ui/Message";
 import Search from "../ui/Search";
 import Spinner from "../ui/Spinner";
-import { useWorld } from "../context/WorldContext";
 
 function Weather() {
-  const { temp } = useWorld();
-  const currtemp = `${temp ? "imperial" : "metric"}`;
-
-
-  const [searchParam] = useSearchParams();
-  const currentName = searchParam.get("name");
-  const [input, setInput] = useState(currentName ? currentName : "");
   const navigate = useNavigate();
 
+  //to display on the map
+  const displayOnMap = () => {
+    navigate(`/map?lat=${location.lat}&lng=${location.lon}`);
+  };
+
+  //to get location name from url
+  const [searchParam] = useSearchParams();
+  const currentName = searchParam.get("name");
+
+  //if the user comes from the weather button in the sidebar, the input values will be the city shown in the sidebar
+  const [input, setInput] = useState(currentName ? currentName : "");
+
+  //context api
+  const { temp, currtemp } = useWorld();
+
+
+  //fetch current weather information
   const { data: currentWeather, isLoading: currentLoading } = useQuery({
-    queryKey: ["weather/current", input , currtemp],
+    queryKey: ["weather/current", input, currtemp],
     queryFn: () => getCurrentWeather(input, currtemp),
   });
+  //array desturiction
+  const { weather, main, wind, visibility } = currentWeather
+    ? currentWeather
+    : {};
 
+  //fetch forecast weather information
   const { data: forecastDaysWeather, isLoading: forecastDaysWeatherLoading } =
     useQuery({
       queryKey: ["weather/forecast", input],
       queryFn: () => getForecastWeather(input),
     });
+  //array destruction
   const { forecast, location } = forecastDaysWeather ? forecastDaysWeather : [];
-  const hour = forecast?.forecastday.map((forecastDay) =>
-    forecastDay.hour?.map((hour) => hour)
-  );
-  // console.log(hour?.map((hour) => hour.map((curhour) => curhour.temp_c)));
-  const { weather, main, wind, visibility } = currentWeather
-    ? currentWeather
-    : {};
 
-  const handleClick = () => {
-    navigate(`/map?lat=${location.lat}&lng=${location.lon}`);
-  };
+  //to reach hour info
+  const hour = forecast?.forecastday.map((forecastDay) =>
+    forecastDay.hour?.map((hour) => hour),
+  );
 
   return (
-    <div className="bg-secondary_light min-h-screen dark:bg-secondary_dark">
+    <div className="min-h-screen bg-secondary_light dark:bg-secondary_dark">
       <Message type="secondary">Find your city`s weather</Message>
 
       <Search setInput={setInput} input={input} />
@@ -59,20 +72,20 @@ function Weather() {
         </div>
       )}
       {currentWeather?.cod !== "400" && currentWeather?.cod !== "404" ? (
-        <div className="p-2 flex   flex-col gap-2">
-          <div className=" mt-10 md:flex-row flex-col  text-primary_light flex gap-4 ">
+        <div className="flex flex-col   gap-2 p-2">
+          <div className=" mt-10 flex flex-col  gap-4 text-primary_light md:flex-row ">
             <div>
               <>
-                <div className=" bg-triatary_light dark:bg-triatary_dark  p-3  animate-moveInLeft md:w-96 min-h-72 rounded-xl ">
-                  <div className="flex h-3/5 border-b items-center justify-around">
+                <div className=" min-h-72 animate-moveInLeft  rounded-xl  bg-triatary_light p-3 dark:bg-triatary_dark md:w-96 ">
+                  <div className="flex h-3/5 items-center justify-around border-b">
                     <div>
-                      <p className=" uppercase font-semibold text-sm  md:text-lg">
+                      <p className=" text-sm font-semibold uppercase  md:text-lg">
                         Now
                       </p>
-                      <h1 className="md:text-[4rem] text-[2rem] font-bold">
+                      <h1 className="text-[2rem] font-bold md:text-[4rem]">
                         {main?.temp.toFixed()}°
                       </h1>
-                      <p className="uppercase font-medium tracking-wider">
+                      <p className="font-medium uppercase tracking-wider">
                         {weather?.map((temp) => temp.description)}
                       </p>
                     </div>
@@ -80,15 +93,13 @@ function Weather() {
                       <img
                         src={`https:${forecastDaysWeather?.current?.condition?.icon}`}
                         alt=""
-                        className="md:w-40 md:h-40 "
+                        className="md:h-40 md:w-40 "
                       />
                     ) : (
-                      <div className="">
-                        {/* <Spinner /> */}
-                      </div>
+                      <div className="">{/* <Spinner /> */}</div>
                     )}
                   </div>
-                  <div className="pt-5 font-medium flex items-center gap-3 uppercase tracking-wider ">
+                  <div className="flex items-center gap-3 pt-5 font-medium uppercase tracking-wider ">
                     <div className="flex flex-col gap-3">
                       <h1>{forecastDaysWeather?.location?.localtime}</h1>
                       <h1 className="flex text-sm">
@@ -96,7 +107,7 @@ function Weather() {
                         {forecastDaysWeather?.location?.country}
                       </h1>
                     </div>
-                    <div className="flex justify-center items-center gap-4 flex-wrap">
+                    <div className="flex flex-wrap items-center justify-center gap-4">
                       <div className="flex items-center">
                         <FaArrowDown />
                         <h3>{main?.temp_min.toFixed()}°</h3>
@@ -113,37 +124,37 @@ function Weather() {
                   </div>
                 </div>
                 <div className="flex animate-moveInLeft justify-end pt-5">
-                  <Button type="weather" onClick={handleClick}>
+                  <Button type="weather" onClick={displayOnMap}>
                     Show on the map
                   </Button>
                 </div>
               </>
             </div>
 
-            <div className="bg-triatary_light animate-moveInBottom   dark:bg-triatary_dark md:w-screen rounded-xl p-4">
-              <h1 className="font-semibold mb-3 text-primary_light/70">
+            <div className="animate-moveInBottom rounded-xl   bg-triatary_light p-4 dark:bg-triatary_dark md:w-screen">
+              <h1 className="mb-3 font-semibold text-primary_light/70">
                 Todays Highlights
               </h1>
-              <div className="flex md:flex-row flex-col gap-4">
+              <div className="flex flex-col gap-4 md:flex-row">
                 <div className="md:w-1/2">
                   <div>
-                    <div className="dark:bg-secondary_dark p-5 rounded-xl  bg-secondary_light">
-                      <div className="flex md:flex-row flex-col justify-between items-center">
-                        <h1 className="font-semibold mb-3 text-primary_light/70">
+                    <div className="rounded-xl bg-secondary_light p-5  dark:bg-secondary_dark">
+                      <div className="flex flex-col items-center justify-between md:flex-row">
+                        <h1 className="mb-3 font-semibold text-primary_light/70">
                           Air Quality
                         </h1>
-                        <span className="border border-green-200 rounded-full p-1 ">
+                        <span className="rounded-full border border-green-200 p-1 ">
                           Good
                         </span>
                       </div>
-                      <div className="flex md:flex-row flex-col justify-around mt-2 items-center">
-                        <RiWindyLine className="md:text-[5rem] text-[2.5rem]" />
+                      <div className="mt-2 flex flex-col items-center justify-around md:flex-row">
+                        <RiWindyLine className="text-[2.5rem] md:text-[5rem]" />
                         <div className="flex gap-5 text-center">
                           <div>
                             <h3 className="text-sm text-primary_light/70">
                               PM 2.5
                             </h3>
-                            <p className="md:text-[2.5rem] text-3xl">
+                            <p className="text-3xl md:text-[2.5rem]">
                               {forecastDaysWeather?.current?.air_quality?.pm2_5}
                             </p>
                           </div>
@@ -151,7 +162,7 @@ function Weather() {
                             <h3 className="text-sm text-primary_light/70">
                               CO
                             </h3>
-                            <p className="md:text-[2.5rem] text-3xl">
+                            <p className="text-3xl md:text-[2.5rem]">
                               {forecastDaysWeather?.current?.air_quality?.co}
                             </p>
                           </div>
@@ -159,7 +170,7 @@ function Weather() {
                             <h3 className="text-sm text-primary_light/70">
                               NO2
                             </h3>
-                            <p className="md:text-[2.5rem]  text-3xl">
+                            <p className="text-3xl  md:text-[2.5rem]">
                               {forecastDaysWeather?.current?.air_quality?.no2}
                             </p>
                           </div>
@@ -167,30 +178,30 @@ function Weather() {
                             <h3 className="text-sm text-primary_light/70">
                               SO2
                             </h3>
-                            <p className="md:text-[2.5rem]  text-3xl">
+                            <p className="text-3xl  md:text-[2.5rem]">
                               {forecastDaysWeather?.current?.air_quality?.so2}
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex justify-center gap-5 mt-2 ">
-                      <div className=" dark:bg-secondary_dark p-5 rounded-xl w-1/2  bg-secondary_light">
-                        <h1 className="font-semibold mb-3 text-primary_light/70">
+                    <div className="mt-2 flex justify-center gap-5 ">
+                      <div className=" w-1/2 rounded-xl bg-secondary_light p-5  dark:bg-secondary_dark">
+                        <h1 className="mb-3 font-semibold text-primary_light/70">
                           Humidity
                         </h1>
-                        <div className="flex items-center gap-5 justify-between">
+                        <div className="flex items-center justify-between gap-5">
                           <WiHumidity className="text-[3rem]" />
-                          <h1 className="font-semibold text-xl md:text-2xl">
+                          <h1 className="text-xl font-semibold md:text-2xl">
                             {currentWeather?.main?.humidity}%
                           </h1>
                         </div>
                       </div>
-                      <div className=" dark:bg-secondary_dark p-5 rounded-xl w-1/2  bg-secondary_light">
-                        <h1 className="font-semibold mb-3 text-primary_light/70">
+                      <div className=" w-1/2 rounded-xl bg-secondary_light p-5  dark:bg-secondary_dark">
+                        <h1 className="mb-3 font-semibold text-primary_light/70">
                           Pressure
                         </h1>
-                        <div className="flex items-center gap-5 justify-between">
+                        <div className="flex items-center justify-between gap-5">
                           <LuWaves className="text-[3rem]" />
                           <h1 className="font-semibold md:text-2xl">
                             {currentWeather?.main?.pressure}hPa
@@ -202,18 +213,18 @@ function Weather() {
                 </div>
                 <div className="md:w-1/2">
                   <div>
-                    <div className="dark:bg-secondary_dark p-5 rounded-xl  bg-secondary_light">
-                      <h1 className="font-semibold mb-5 text-primary_light/70">
+                    <div className="rounded-xl bg-secondary_light p-5  dark:bg-secondary_dark">
+                      <h1 className="mb-5 font-semibold text-primary_light/70">
                         Sunrise & Sunset
                       </h1>
                       <div className="flex  items-center justify-around">
-                        <div className="flex flex-col md:flex-row gap-4 items-center">
+                        <div className="flex flex-col items-center gap-4 md:flex-row">
                           <WiSunrise className="text-[4rem]" />
                           <div>
                             <h3 className="font-semibold  text-primary_light/70">
                               Sunrise
                             </h3>
-                            <h3 className="md:text-[2rem] font-semibold">
+                            <h3 className="font-semibold md:text-[2rem]">
                               {forecast?.forecastday
                                 ?.slice(0, 1)
                                 ?.map((days) => {
@@ -224,13 +235,13 @@ function Weather() {
                             </h3>
                           </div>
                         </div>
-                        <div className="flex flex-col md:flex-row  gap-4 items-center">
+                        <div className="flex flex-col items-center  gap-4 md:flex-row">
                           <GiSunset className="text-[4rem]" />
                           <div>
                             <h3 className="font-semibold  text-primary_light/70">
                               Sunset
                             </h3>
-                            <h3 className="md:text-[2.4rem] font-semibold">
+                            <h3 className="font-semibold md:text-[2.4rem]">
                               {forecast?.forecastday
                                 ?.slice(0, 1)
                                 ?.map((days) => {
@@ -243,25 +254,25 @@ function Weather() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex justify-center gap-5 mt-2 ">
-                      <div className=" dark:bg-secondary_dark p-5 rounded-xl w-1/2  bg-secondary_light">
-                        <h1 className="font-semibold mb-3 text-primary_light/70">
+                    <div className="mt-2 flex justify-center gap-5 ">
+                      <div className=" w-1/2 rounded-xl bg-secondary_light p-5  dark:bg-secondary_dark">
+                        <h1 className="mb-3 font-semibold text-primary_light/70">
                           Visibility
                         </h1>
-                        <div className="flex items-center gap-5 justify-between">
+                        <div className="flex items-center justify-between gap-5">
                           <MdOutlineVisibility className="text-[3rem]" />
                           <h1 className="font-semibold md:text-2xl">
                             {visibility}
                           </h1>
                         </div>
                       </div>
-                      <div className=" dark:bg-secondary_dark p-5 rounded-xl w-1/2  bg-secondary_light">
-                        <h1 className="font-semibold mb-3 text-primary_light/70">
+                      <div className=" w-1/2 rounded-xl bg-secondary_light p-5  dark:bg-secondary_dark">
+                        <h1 className="mb-3 font-semibold text-primary_light/70">
                           Feels Like
                         </h1>
-                        <div className="flex items-center gap-5 justify-between">
+                        <div className="flex items-center justify-between gap-5">
                           <LiaTemperatureHighSolid className="text-[3rem]" />
-                          <h1 className="font-semibold text-xl md:text-2xl">
+                          <h1 className="text-xl font-semibold md:text-2xl">
                             {currentWeather?.main?.feels_like.toFixed()}°
                           </h1>
                         </div>
@@ -273,9 +284,9 @@ function Weather() {
             </div>
           </div>
 
-          <div className="flex  md:flex-row flex-col gap-4">
-            <div className="bg-triatary_light animate-moveInBottom  dark:bg-triatary_dark md:w-96 p-3 max-h-[33rem] rounded-xl text-primary_light">
-              <h3 className="text-primary_light/70 uppercase font-semibold mb-2  text-lg">
+          <div className="flex  flex-col gap-4 md:flex-row">
+            <div className="max-h-[33rem] animate-moveInBottom  rounded-xl bg-triatary_light p-3 text-primary_light dark:bg-triatary_dark md:w-96">
+              <h3 className="mb-2 text-lg font-semibold uppercase  text-primary_light/70">
                 7 days forecast
               </h3>
               {!forecastDaysWeatherLoading ? (
@@ -290,8 +301,11 @@ function Weather() {
                           src={`https:${days?.day?.condition?.icon}`}
                           alt=""
                         />
-                        <h2 className="font-semibold text-lg">
-                          {temp ? days?.day?.avgtemp_f.toFixed() : days?.day?.avgtemp_c.toFixed() }°
+                        <h2 className="text-lg font-semibold">
+                          {temp
+                            ? days?.day?.avgtemp_f.toFixed()
+                            : days?.day?.avgtemp_c.toFixed()}
+                          °
                         </h2>
                         <h3 className="font-semibold">{days.date}</h3>
                       </div>
@@ -304,8 +318,8 @@ function Weather() {
                 </div>
               )}
             </div>
-            <div className="bg-triatary_light animate-moveInBottom p-3 dark:bg-triatary_dark md:w-3/4  rounded-xl text-primary_light">
-              <h3 className="text-primary_light/70 uppercase font-semibold mb-5  text-lg">
+            <div className="animate-moveInBottom rounded-xl bg-triatary_light p-3 text-primary_light  dark:bg-triatary_dark md:w-3/4">
+              <h3 className="mb-5 text-lg font-semibold uppercase  text-primary_light/70">
                 Hourly forecast
               </h3>
               {!forecastDaysWeatherLoading ? (
@@ -316,20 +330,23 @@ function Weather() {
                         return (
                           <div key={curhour.time} x>
                             <div className="flex flex-col justify-center text-center ">
-                              <p className="font-semibold text-lg">
+                              <p className="text-lg font-semibold">
                                 {curhour.time}
                               </p>
                               <img
                                 src={`https:${curhour?.condition?.icon}`}
                                 alt=""
                               />
-                              <h3 className="font-semibold text-lg">
-                                {temp ? curhour.temp_f.toFixed() : curhour.temp_c.toFixed() }°
+                              <h3 className="text-lg font-semibold">
+                                {temp
+                                  ? curhour.temp_f.toFixed()
+                                  : curhour.temp_c.toFixed()}
+                                °
                               </h3>
                             </div>
                           </div>
                         );
-                      })
+                      }),
                     )}
                   </div>
                 </div>

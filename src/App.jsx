@@ -1,9 +1,10 @@
+import React from "react";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import "leaflet/dist/leaflet.css";
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { WorldProvider } from "./context/WorldContext";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Map from "./pages/Map";
@@ -11,7 +12,10 @@ import Weather from "./pages/Weather";
 import Applayout from "./ui/Applayout";
 import Sidebar from "./ui/Sidebar";
 
+import "leaflet/dist/leaflet.css";
+
 function App() {
+  //for react query
   const queryClient = new QueryClient();
 
   return (

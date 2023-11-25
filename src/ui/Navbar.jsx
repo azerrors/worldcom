@@ -1,19 +1,27 @@
 import { Link } from "react-router-dom";
-import Theme from "./Theme";
+import { toast } from "react-toastify";
+
 import { useWorld } from "../context/WorldContext";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { TbTemperatureFahrenheit } from "react-icons/tb";
 import { CgDetailsMore } from "react-icons/cg";
-import { toast } from "react-toastify";
+
+import Theme from "./Theme";
 
 function Navbar() {
+  //context api
   const { dispatch, temp, show } = useWorld();
+
+  //styles
   const linkStyle =
     "hover:bg-secondary_light hover:dark:bg-secondary_dark bg:hover:text-primary_dark hover:skew-x-3  hover:text-primary_light p-2 transition-all  hover:active:translate-y-2 hover:-translate-y-1 hover:scale-[1.01] rounded-md duration-400";
+
+  //sets show state to !show  
   const handleClick = () => {
     dispatch({ type: "show" });
   };
 
+  //notification and set show to !show
   const handleToast = () => {
     dispatch({ type: "temp" });
     toast.info(
@@ -51,7 +59,7 @@ function Navbar() {
             onClick={handleToast}
             className={`${linkStyle} cursor-pointer md:text-3xl`}
           >
-            {temp ? <TbTemperatureCelsius /> : <TbTemperatureFahrenheit />}
+            {!temp ? <TbTemperatureCelsius /> : <TbTemperatureFahrenheit />}
           </span>
 
           <Link to="/map" className={linkStyle}>

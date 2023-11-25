@@ -7,10 +7,15 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 function SideNavbar() {
+  //context api
   const { show, temp, dispatch } = useWorld();
+
+  //to state show state show to !show
   const handleClick = () => {
     dispatch({ type: "show" });
   };
+
+  //notifcation state show to !show and temp to !temp
   const handleClickAndDispatch = () => {
     toast.info(
       `${
@@ -32,8 +37,10 @@ function SideNavbar() {
     dispatch({ type: "show" });
   };
 
+  //styles
   const linkStyle =
     "hover:bg-secondary_light hover:dark:bg-secondary_dark text-xl bg:hover:text-primary_dark hover:skew-x-3  hover:text-primary_light p-2 transition-all  hover:active:translate-y-2 hover:-translate-y-1 hover:scale-[1.01] rounded-md duration-400";
+    
   return (
     <div
       className={`absolute h-full transform border bg-secondary_light dark:bg-secondary_dark ${

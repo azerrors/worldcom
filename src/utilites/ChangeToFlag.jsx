@@ -19,14 +19,3 @@ export default function countryCodeToFlag(countryCode) {
 
   return flagEmoji;
 }
-
-// Example usage:
-// const countryCode = "us";
-// const flagEmoji = countryCodeToFlag(countryCode);
-
-// if (flagEmoji) {
-//   console.log(`Country Code: ${countryCode}`);
-//   console.log(`Country Flag Emoji: ${flagEmoji}`);
-// } else {
-//   console.log("Failed to convert country code to flag emoji.");
-// }

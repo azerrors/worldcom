@@ -1,4 +1,3 @@
-import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import {
   MapContainer,
@@ -8,24 +7,30 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useGeolocation } from "../hooks/useGeolocation";
+import "leaflet/dist/leaflet.css";
+
 import { useUrlPosition } from "../hooks/useUrlPosition";
-import Button from "../ui/Button";
+import { useGeolocation } from "../hooks/useGeolocation";
+import { useNavigate } from "react-router-dom";
+
+import { toast } from "react-toastify";
 import { Icon } from "leaflet";
+import Button from "../ui/Button";
 
 function MainMap() {
   const [mapPosition, setMapPosition] = useState([45, 40]);
-  // console.log(mapPosition)
+
+  //to get user location
   const {
     isLoading: isLoadingPosition,
     position: geolocationPosition,
     getPosition,
   } = useGeolocation();
-  const [mapLat, mapLng] = useUrlPosition();
-  console.log(geolocationPosition);
 
+  //TO GET LAT AND LNG VALUES FROM URL
+  const [mapLat, mapLng] = useUrlPosition();
+
+  //notification and get location
   const handlePosition = () => {
     toast.info("Location detected", {
       position: "bottom-right",
@@ -36,9 +41,11 @@ function MainMap() {
       draggable: true,
       theme: "dark",
     });
+    //---
     getPosition();
   };
 
+  //if user position values are available, they will be passed to the mapPosition state to be displayed on the map
   useEffect(
     function () {
       if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
@@ -46,6 +53,7 @@ function MainMap() {
     [mapLat, mapLng],
   );
 
+  //if user position values are available, they will be passed to the mapPosition state to be displayed on the map
   useEffect(
     function () {
       if (geolocationPosition)
@@ -54,13 +62,14 @@ function MainMap() {
     [geolocationPosition],
   );
 
+  //icon to show on the map
   const customIcon = new Icon({
     iconUrl: "placeholder.png",
     iconSize: [30, 30],
   });
 
   return (
-    <div className="relative mx-5  md:w-full">
+    <div className="relative mx-5 md:mx-1  md:w-full">
       {!geolocationPosition && (
         <Button onClick={handlePosition} type="position">
           {isLoadingPosition ? "Loading..." : "Use your position"}
@@ -75,7 +84,10 @@ function MainMap() {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {geolocationPosition && (
-          <Marker icon={customIcon} position={[geolocationPosition.lat, geolocationPosition.lng]}>
+          <Marker
+            icon={customIcon}
+            position={[geolocationPosition.lat, geolocationPosition.lng]}
+          >
             <Popup></Popup>
           </Marker>
         )}

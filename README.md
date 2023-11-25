@@ -1,8 +1,18 @@
-# React + Vite
+# **W O R L D C O M**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[-> **live demo** <-]("https://worldcom-azerrors.vercel.app")
+## **T E C H S**
+- __REACT__
+- __TAILWIND CSS__
 
-Currently, two official plugins are available:
+- __REACT ROUTER__
+- __REACT QUERY__
+- __REACT LEAFLET__
+- __REACT ICONS__
+- __REACT TOASTIFY__
+- __OPENWEATHERAPI__
+- __WEATHERAPI__
+- __BIGDATACLOUDAPI__
+- __COUNTRYAPI__
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---

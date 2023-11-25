@@ -4,7 +4,6 @@ const BASE_URL = "https://countryapi.io/api/";
 async function countryApi(name) {
   const res = await fetch(`${BASE_URL}name/${name}?apikey=${KEY}`);
   const data = await res.json()
-  console.log(data)
   return data
 }
 

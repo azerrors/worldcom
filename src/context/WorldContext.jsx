@@ -5,29 +5,10 @@ const WorldContext = createContext();
 const initialState = {
   temp: true,
   show: false,
-  searchInput: "",
-  favorites: [],
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    // case "weather/search":
-    //   return {
-    //     ...state,
-    //     searchInput: action.payload,
-    //   };
-    // case "favorite/add":
-    //   return {
-    //     ...state,
-    //     favorites: [...state.favorites, action.payload],
-    //   };
-    // case "favorite/delete":
-    //   return {
-    //     ...state,
-    //     favorites: state.favorites.filter(
-    //       (item) => item.lat === action.payload
-    //     ),
-    //   };
     case "temp":
       return {
         ...state,
@@ -44,12 +25,12 @@ function reducer(state, action) {
 }
 
 function WorldProvider({ children }) {
-  const [{ temp, show, favorites }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ temp, show }, dispatch] = useReducer(reducer, initialState);
+  const currtemp = `${temp ? "imperial" : "metric"}`;
+
+
   return (
-    <WorldContext.Provider value={{ temp, show, dispatch, favorites }}>
+    <WorldContext.Provider value={{ currtemp , temp, show, dispatch }}>
       {children}
     </WorldContext.Provider>
   );
