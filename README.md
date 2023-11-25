@@ -1,6 +1,6 @@
 # **W O R L D C O M**
 
-[-> **live demo** <-]("https://worldcom-azerrors.vercel.app")
+[-> **live demo** <-](https://worldcom-azerrors.vercel.app)
 ## **T E C H S**
 - __REACT__
 - __TAILWIND CSS__
