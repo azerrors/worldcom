@@ -287,7 +287,7 @@ function Weather() {
           <div className="flex  flex-col gap-4 md:flex-row">
             <div className="max-h-[33rem] animate-moveInBottom  rounded-xl bg-triatary_light p-3 text-primary_light dark:bg-triatary_dark md:w-96">
               <h3 className="mb-2 text-lg font-semibold uppercase  text-primary_light/70">
-                7 days forecast
+                3 days forecast
               </h3>
               {!forecastDaysWeatherLoading ? (
                 <div className="flex flex-wrap items-center justify-center">
