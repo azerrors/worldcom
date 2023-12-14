@@ -20,10 +20,16 @@ import Spinner from "../ui/Spinner";
 
 function Weather() {
   const navigate = useNavigate();
+  //context api
+  const { temp, currtemp, dispatch } = useWorld();
 
   //to display on the map
   const displayOnMap = () => {
     navigate(`/map?lat=${location.lat}&lng=${location.lon}`);
+    dispatch({
+      type: "display",
+      payload: { lng: location.lon, lat: location.lat },
+    });
   };
 
   //to get location name from url
@@ -32,10 +38,6 @@ function Weather() {
 
   //if the user comes from the weather button in the sidebar, the input values will be the city shown in the sidebar
   const [input, setInput] = useState(currentName ? currentName : "");
-
-  //context api
-  const { temp, currtemp } = useWorld();
-
 
   //fetch current weather information
   const { data: currentWeather, isLoading: currentLoading } = useQuery({

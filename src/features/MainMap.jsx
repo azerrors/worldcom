@@ -16,9 +16,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Icon } from "leaflet";
 import Button from "../ui/Button";
+import { useWorld } from "../context/WorldContext";
 
 function MainMap() {
   const [mapPosition, setMapPosition] = useState([45, 40]);
+
+  //context api
+  const { weatherLng, weatherLat, favorites } = useWorld();
 
   //to get user location
   const {
@@ -68,6 +72,11 @@ function MainMap() {
     iconSize: [30, 30],
   });
 
+  const customIcon2 = new Icon({
+    iconUrl: "showmap.png",
+    iconSize: [30, 30],
+  })
+
   return (
     <div className="relative mx-5 md:mx-1  md:w-full">
       {!geolocationPosition && (
@@ -91,6 +100,23 @@ function MainMap() {
             <Popup></Popup>
           </Marker>
         )}
+        {/* {weatherLat && weatherLng && (
+          <Marker icon={customIcon2} position={[weatherLat, weatherLng]}>
+            <Popup></Popup>
+          </Marker>
+        )} */}
+        {favorites &&
+          favorites?.map((fav) => {
+            return (
+              <Marker
+                key={fav.latitude}
+                icon={customIcon}
+                position={[fav.latitude, fav.longitude]}
+              >
+                <Popup></Popup>
+              </Marker>
+            );
+          })}
 
         <ChangeCenter position={mapPosition} />
         <DetectClick />
