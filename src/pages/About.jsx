@@ -3,7 +3,7 @@ import { TbTemperatureFahrenheit } from "react-icons/tb";
 
 function About() {
   return (
-    <div className="min-h-screen bg-secondary_light dark:bg-secondary_dark">
+    <div className="h-[49rem] bg-secondary_light dark:bg-secondary_dark">
       <h3 className="pt-10 text-center text-3xl font-semibold uppercase tracking-widest text-primary_light">
         WorldCom
       </h3>

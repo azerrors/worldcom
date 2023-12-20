@@ -8,11 +8,13 @@ import Futter from "./Futter";
 
 function Applayout() {
   return (
-    <div className="bg-stone-200 h-screen">
+    <div className="h-screen  bg-stone-200">
       <SideNavbar />
       <div>
         <Navbar />
+
         <Outlet />
+
         <Futter />
       </div>
       <ToastContainer />

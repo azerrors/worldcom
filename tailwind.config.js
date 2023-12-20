@@ -39,7 +39,7 @@ export default {
         moveInLeft: "moveInLeft 2s",
         moveInTop: "moveInTop 2s",
         rotate: "rotate 2s infinite 2.2s , moveInRight 2s",
-        rotatev1: "rotate  infinite 2.2s",
+        rotatev1: "rotate infinite 2.2s",
         moveInRight: "moveInRight 2s",
         moveInBottom: "moveInBottom 2s",
       },

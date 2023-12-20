@@ -19,7 +19,9 @@ import Search from "../ui/Search";
 import Spinner from "../ui/Spinner";
 
 function Weather() {
+  //navige for map 
   const navigate = useNavigate();
+  
   //context api
   const { temp, currtemp, dispatch } = useWorld();
 
@@ -64,7 +66,7 @@ function Weather() {
   );
 
   return (
-    <div className="min-h-screen bg-secondary_light dark:bg-secondary_dark">
+    <div className="min-h-[49rem] bg-secondary_light dark:bg-secondary_dark">
       <Message type="secondary">Find your city`s weather</Message>
 
       <Search setInput={setInput} input={input} />

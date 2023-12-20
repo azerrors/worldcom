@@ -96,7 +96,7 @@ function Sidebar() {
   if (!showFav) {
     return (
       <div className="bg-secondary_light text-primary_light  dark:bg-secondary_dark md:w-[50%]">
-        <h1 className="mt-20 text-center text-3xl font-semibold uppercase tracking-widest">
+        <h1 className="hover:skew-x-3 hover:skew-y-2 hover:scale-[1.3] transition-all duration-300 mt-20 text-center text-3xl font-semibold uppercase tracking-widest">
           Worldcom
         </h1>
         {placeInfoLoading && (
@@ -110,7 +110,7 @@ function Sidebar() {
               <>
                 <div className="my-20 relative flex animate-moveInTop justify-center ">
                   <TfiWorld
-                    className="hover:animate-rotatev1 cursor-pointer text-[5rem]"
+                    className="animate-rotatev1 cursor-pointer text-[5rem]"
                     onClick={() => dispatch({ type: "showFav" })}
                   />
                   <span className="absolute font-semibold md:right-[14.5rem] right-[8rem]  text-xl top-16">{favorites.length}</span>

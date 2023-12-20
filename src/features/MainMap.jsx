@@ -78,7 +78,7 @@ function MainMap() {
   })
 
   return (
-    <div className="relative mx-5 md:mx-1  md:w-full">
+    <div className="mb-5 md:mb-0 relative mx-5 md:mx-1   md:w-full">
       {!geolocationPosition && (
         <Button onClick={handlePosition} type="position">
           {isLoadingPosition ? "Loading..." : "Use your position"}
@@ -86,7 +86,7 @@ function MainMap() {
       )}
 
       <MapContainer
-        className="h-screen"
+        className="h-screen "
         center={mapPosition}
         zoom={13}
         scrollWheelZoom={true}

@@ -11,11 +11,12 @@ function Home() {
   //context api
   const { show } = useWorld();
   
+  //navigate for map page
   const navigate = useNavigate();
 
 
   return (
-    <div className="min-h-screen bg-secondary_light dark:bg-secondary_dark">
+    <div className="min-h-[49rem] bg-secondary_light dark:bg-secondary_dark">
       <h3 className="animate-moveInTop pt-20 text-center text-xl font-semibold uppercase tracking-widest text-primary_light md:text-3xl">
         Hello , stranger
       </h3>
@@ -32,8 +33,8 @@ function Home() {
             </Link>{" "}
             section to get information about the app
           </h4>
-          <div className="mt-20 flex animate-moveInBottom justify-end">
-            <div className="mr-5 flex items-center justify-center gap-5 text-3xl">
+          <div className="mt-20 mb-16 flex animate-moveInBottom justify-end">
+            <div className="mr-5  flex items-center justify-center gap-5 text-3xl">
               <Link to="https://github.com/azerrors">
                 <FaGithub />
               </Link>
@@ -41,7 +42,7 @@ function Home() {
                 <FaLinkedin />
               </Link>
             </div>
-            <div className="">
+            <div >
               <Button type="weather" onClick={() => navigate("/map")}>
                 Let`s get started
               </Button>
@@ -49,7 +50,7 @@ function Home() {
           </div>
         </div>
         <div
-          className={` md:mt-32 ${
+          className={`md:mt-32 ${
             show ? "z-[-1000]" : ""
           } my-16 text-[10rem] md:text-[20rem] `}
         >
